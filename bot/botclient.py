@@ -95,6 +95,7 @@ class Client(discord.Bot, ABC):
             self.__config.server_address,
             self.__config.server_port
         )
+        self.presence_manager = Presence(self)
 
     def run(self, *args: Any, **kwargs: Any) -> None:
         """< function >
