@@ -102,7 +102,19 @@ class Client(discord.Bot, ABC):
         Starts the bot and automatically gets the configured token.
         """
 
-        super(Client, self).run(self.__config.auth_token)
+        super(BotClient, self).run(self.__config.auth_token)
+
+    @property
+    def config(self) -> Configs:
+        """< property >
+
+        The default config should not be changeable even on runtime.
+        This ensures its read-only.
+
+        :return: Butter default config
+        """
+
+        return self.__config
 
     @property
     def color(self) -> int:
