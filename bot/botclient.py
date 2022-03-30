@@ -159,11 +159,17 @@ class BotClient(discord.Bot, ABC):
         logger = logging.getLogger('discord')
         logger.setLevel(level)
 
-        handler = logging.FileHandler(filename=f'{os.path.join(*path_list, "") or ""}discord.log', encoding='utf-8',
-                                      mode='w')
-        handler.setFormatter(logging.Formatter(fmt='[%(asctime)s] - %(levelname)s: %(name)s: %(message)s'))
+        formatter = logging.Formatter(fmt='[%(asctime)s] - %(levelname)s: %(name)s: %(message)s')
 
-        logger.addHandler(handler)
+        file_handler = logging.FileHandler(filename=f'{os.path.join(*path_list, "") or ""}discord.log',
+                                           encoding='utf-8', mode='w')
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
+        logger.addHandler(console_handler)
+
         return logger
 
     async def on_ready(self) -> None:
