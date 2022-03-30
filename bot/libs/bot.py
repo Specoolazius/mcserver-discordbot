@@ -7,7 +7,7 @@ from mcstatus import JavaServer
 import discord
 from discord.commands import slash_command
 
-TOKEN = "OTU4Njg2Mjg3MDIyNDIwMDE4.YkQ8Lg.cjdTR7syrHPsXVBUINhq3COQQc4"
+TOKEN = ""
 
 
 class ServerBot(discord.Bot, ABC):
