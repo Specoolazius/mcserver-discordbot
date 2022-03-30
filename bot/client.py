@@ -125,7 +125,7 @@ class Client(discord.Bot, ABC):
 
         Basic logging abilities
         """
-        
+
         path_list = re.split('/| \\\\', self.__config.log_path)
 
         for i, folder in enumerate(path_list):
