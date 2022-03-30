@@ -162,6 +162,91 @@ class Client(discord.Bot, ABC):
         logger.addHandler(handler)
         return logger
 
+    async def on_ready(self) -> None:
+        """< coroutine >
+
+        Logs when the bot is online.
+        """
+
+        self.logger.info('Bot successfully started')
+
+
+class Presence(object):
+    """<object>
+
+    A class for simply managing the bot's presence.
+    """
+
+    def __init__(self, bot: BotClient):
+        self.bot = bot
+        self.mc_server = self.bot.mc_server
+        self.__server_online_presence.start()
+
+        """
+        await self.bot.change_presence(
+            activity=self.bot.activity,
+            status=self.bot.status
+        )"""
+
+    @tasks.loop()
+    async def __server_online_presence(self):
+        try:
+            self.bot.logger.debug('Getting server information')
+            status = await self.mc_server.async_status()
+
+            await self.bot.change_presence(
+                activity=discord.Game(
+                    name=f'with {status.players.online} players'
+                )
+            )
+            await asyncio.sleep(40)
+
+            await self.bot.change_presence(
+                activity=discord.Activity(
+                    type=discord.ActivityType.watching,
+                    name=self.bot.config.server_address
+                )
+            )
+            await asyncio.sleep(20)
+
+        except Exception as e:
+            # ToDo: server offline exception
+            print('server offline because:', str(e))
+
+    @__server_online_presence.before_loop
+    async def __before_status(self) -> None:
+        """< coroutine >
+
+        Waits until the bot has fully started in case the server
+        is already online
+        """
+
+        await self.bot.wait_until_ready()
+        self.bot.logger.info('presence loaded (server online)')
+
+    @__server_online_presence.after_loop
+    async def __after_status(self) -> None:
+        print('stopped')
+        await self.bot.change_presence(
+            activity=self.bot.activity,
+            status=self.bot.status
+        )
+
+
+class Developer(discord.Cog):
+    """< discord.Cog >
+
+    """
+
+
+class Status(discord.Cog):
+    """< discord.Cog >
+
+    An extension to display servers status
+    """
+
+    def __init__(self, bot: BotClient):
+        self.bot = bot
 
 
 
