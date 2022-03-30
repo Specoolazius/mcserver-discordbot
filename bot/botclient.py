@@ -165,6 +165,11 @@ class Client(discord.Bot, ABC):
 
 
 
+class StartStop(discord.Cog):
+    """< discord.Cog >
+
+    """
+
 
 if __name__ == '__main__':
     Client().run()
