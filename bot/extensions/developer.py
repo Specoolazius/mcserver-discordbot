@@ -9,5 +9,7 @@ class Developer(discord.Cog):
         self.bot = bot
 
 
+
+
 def setup(bot: ServerBot):
     bot.add_cog(Developer(bot))
