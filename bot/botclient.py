@@ -75,7 +75,7 @@ class Configs(object):
             return token
 
 
-class Client(discord.Bot, ABC):
+class BotClient(discord.Bot, ABC):
     """< discord.Bot >
 
     The bot class
@@ -85,8 +85,8 @@ class Client(discord.Bot, ABC):
         self.__config = Configs()
         self.logger = self.__setup_logger(self.__config.log_level)
 
-        super(Client, self).__init__(
-            # starting presence
+        super(BotClient, self).__init__(
+            # default presence
             activity=discord.Game('Beep Boop! Loading...'),
             status=discord.Status.idle,
         )
@@ -258,4 +258,4 @@ class StartStop(discord.Cog):
 
 
 if __name__ == '__main__':
-    Client().run()
+    BotClient().run()
