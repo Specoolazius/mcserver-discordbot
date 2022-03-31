@@ -242,15 +242,7 @@ class Presence(object):
         """
 
         await self.bot.wait_until_ready()
-        self.bot.logger.info('presence loaded (server online)')
-
-    @__server_online_presence.after_loop
-    async def __after_status(self) -> None:
-        print('stopped')
-        await self.bot.change_presence(
-            activity=self.bot.activity,
-            status=self.bot.status
-        )
+        self.bot.logger.info('presence loaded')
 
 
 class Developer(discord.Cog):
