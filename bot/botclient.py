@@ -1,3 +1,4 @@
+import pprint
 from abc import ABC
 import asyncio
 from configparser import ConfigParser
@@ -6,11 +7,14 @@ import logging
 import os
 import random
 import re
+
+import time
 from typing import Any
 
 import discord
-from discord.commands import slash_command
+from discord.commands import slash_command, SlashCommandGroup
 from discord.ext import tasks
+import mcstatus
 from mcstatus import JavaServer
 
 CONFIG_PATH = 'config'
