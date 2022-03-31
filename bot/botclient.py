@@ -108,6 +108,9 @@ class BotClient(discord.Bot, ABC):
             debug_guilds=self.config.debug_guilds,
         )
 
+        self.is_server_starting = False
+        self.last_start = time.time()
+
         self.mc_server = JavaServer(
             self.__config.server_address,
             self.__config.server_port
