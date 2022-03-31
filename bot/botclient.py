@@ -117,6 +117,10 @@ class BotClient(discord.Bot, ABC):
         )
         self.presence_manager = Presence(self)
 
+        # extensions
+        self.add_cog(Status(self))
+        self.add_cog(Developer(self))
+
     def run(self, *args: Any, **kwargs: Any) -> None:
         """< function >
 
