@@ -229,9 +229,24 @@ class Presence(object):
             )
             await asyncio.sleep(20)
 
-        except Exception as e:
-            # ToDo: server offline exception
-            print('server offline because:', str(e))
+        except asyncio.TimeoutError:
+            if self.bot.is_server_starting and self.bot.last_start + self.bot.config.server_start_timout < time.time():
+                self.bot.is_server_starting = False
+
+            # ToDo: better presence
+            await self.bot.change_presence(
+                activity=discord.Activity(
+                    type=discord.ActivityType.watching,
+                    name=f'{self.bot.config.server_address} starting' if self.bot.is_server_starting else
+                    f'offline: [self.server.address]',
+                ),
+                status=discord.Status.idle
+            )
+
+            # abs -> simple fix if for any reason the sleep_time is negative
+            sleep_time = abs(_time - time.time() + self.retry_in_seconds)
+            self.bot.logger.debug(f'Server offline, retrying in {round(sleep_time, 4)} seconds')
+            await asyncio.sleep(sleep_time)
 
     @__server_online_presence.before_loop
     async def __before_status(self) -> None:
