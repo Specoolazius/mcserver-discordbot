@@ -215,12 +215,6 @@ class Presence(object):
 
         self.__server_online_presence.start()
 
-        """
-        await self.bot.change_presence(
-            activity=self.bot.activity,
-            status=self.bot.status
-        )"""
-
     @tasks.loop()
     async def __server_online_presence(self):
         _time = time.time()
