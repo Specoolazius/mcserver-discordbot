@@ -99,6 +99,9 @@ class BotClient(discord.Bot, ABC):
             # default presence
             activity=discord.Game('Beep Boop! Loading...'),
             status=discord.Status.idle,
+
+            # debug
+            debug_guilds=self.config.debug_guilds,
         )
 
         self.mc_server = JavaServer(
@@ -253,7 +256,40 @@ class Presence(object):
 class Developer(discord.Cog):
     """< discord.Cog >
 
+    Some developer tools for managing the bot.
     """
+
+    def __init__(self, bot: BotClient):
+        self.bot = bot
+
+    async def __permission_granter(self, *path: str) -> int:
+        process = await asyncio.create_subprocess_shell(
+            cmd=f'sudo chmod +x {os.path.join(os.getcwd(), *path)}',
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        stdout, stderr = await process.communicate()
+
+        self.bot.logger.info(f'Finished bot update with exit code {process.returncode}')
+        if process.returncode:
+            self.bot.logger.error(f'stderr:\n{stderr.decode()}')
+
+        else:
+            self.bot.logger.info(f'stdout:\n{stdout.decode()}')
+
+        return process.returncode
+
+    __dev_group = SlashCommandGroup(name='dev', description='Developer settings')
+
+    @__dev_group.command(name='update')
+    async def __update_bot(self, ctx: discord.ApplicationContext):
+        response = await ctx.respond('starting update...')
+
+        if await self.__permission_granter('scripts', 'update.sh') == 0:
+            print('okay')
+
+        else:
+            await ctx.respond('Failed to update. Check the log files for further information')
 
 
 class Status(discord.Cog):
