@@ -211,6 +211,8 @@ class Presence(object):
     def __init__(self, bot: BotClient):
         self.bot = bot
         self.mc_server = self.bot.mc_server
+        self.retry_in_seconds = self.bot.config.retry_in_seconds
+
         self.__server_online_presence.start()
 
         """
@@ -221,23 +223,29 @@ class Presence(object):
 
     @tasks.loop()
     async def __server_online_presence(self):
+        _time = time.time()
+
         try:
             self.bot.logger.debug('Getting server information')
             status = await self.mc_server.async_status()
 
+            self.bot.is_server_starting = False
+
             await self.bot.change_presence(
                 activity=discord.Game(
-                    name=f'with {status.players.online} players'
-                )
+                    name=f'with {status.players.online} player{"s" if status.players.online != 1 else ""}',
+                ),
+                status=discord.Status.online
             )
-            await asyncio.sleep(40)
 
+            await asyncio.sleep(40)
             await self.bot.change_presence(
                 activity=discord.Activity(
                     type=discord.ActivityType.watching,
-                    name=self.bot.config.server_address
+                    name=self.bot.config.server_address,
                 )
             )
+
             await asyncio.sleep(20)
 
         except asyncio.TimeoutError:
