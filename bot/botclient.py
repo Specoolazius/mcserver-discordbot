@@ -54,6 +54,13 @@ class Configs(object):
         self.log_path = config.get('logging', 'path', fallback=os.path.join('logs', ''))
         self.log_level = config.getint('logging', 'level', fallback=logging.INFO)
 
+        self.retry_in_seconds = config.getint('presence', 'retry_in_seconds', fallback=15)
+        self.server_start_timout = config.getint('presence', 'server_start_timout', fallback=300)
+
+        self.debug_guilds = config.get('debug', 'debug_guilds', fallback=None)
+        if self.debug_guilds:
+            self.debug_guilds = [int(guild_id) for guild_id in self.debug_guilds.split(' ')]
+
         self.intents = discord.Intents.none()
         self.mc_flags = discord.MemberCacheFlags.from_intents(self.intents)
 
