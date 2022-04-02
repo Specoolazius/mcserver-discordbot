@@ -21,4 +21,4 @@ class StartStop(discord.Cog):
 
     @slash_command(name='start')
     async def __execute_start(self, ctx: discord.ApplicationContext) -> None:
-        pass
+        returncode = None
