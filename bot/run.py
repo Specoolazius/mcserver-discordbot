@@ -1,14 +1,12 @@
 import sys
 from aiohttp import ClientConnectorError
 
-from libs.bot import ServerBot
+from libs import Client
 
 
 if __name__ == '__main__':
-    bot = ServerBot()
-
     try:
-        bot.run()
+        Client().run()
 
     except ClientConnectorError as e:
         sys.exit(-59)
