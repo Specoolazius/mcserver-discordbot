@@ -1,3 +1,9 @@
+"""
+Project is under GNU GENERAL PUBLIC LICENSE 3.0
+
+2022, created by Specoolazius
+"""
+
 from abc import ABC
 import asyncio
 from typing import Any

@@ -1,3 +1,9 @@
+"""
+Project is under GNU GENERAL PUBLIC LICENSE 3.0
+
+2022, created by Specoolazius
+"""
+
 from datetime import datetime
 from configparser import ConfigParser
 import re
