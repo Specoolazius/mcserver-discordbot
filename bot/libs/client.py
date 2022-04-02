@@ -156,25 +156,27 @@ class Client(discord.Bot, ABC):
             await process_chmod.communicate()
             return process_chmod.returncode
 
-        process = await asyncio.create_subprocess_exec(
-            program=os.path.join(os.getcwd(), SHELL_SCRIPT_PATH, file_name),
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )
+        if not retry:
+            await __grant_permission()
 
-        stdout, stderr = await process.communicate()
-        self.logger.info(f'Executed script {file_name} with exit code {process.returncode}')
+        try:
+            process = await asyncio.create_subprocess_exec(
+                program=os.path.join(os.getcwd(), SHELL_SCRIPT_PATH, file_name),
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
 
-        if process.returncode == 0:
-            self.logger.info(f'stdout:\n{stdout.decode()}')
+            stdout, stderr = await process.communicate()
+            self.logger.info(f'Executed script {file_name} with exit code {process.returncode}')
 
-        # bash returncode 126: permission error
-        elif process.returncode == 126 and retry:
+            if process.returncode == 0:
+                self.logger.info(f'stdout:\n{stdout.decode()}')
+            else:
+                self.logger.error(f'stderr:\n{stderr.decode()}')
+
+            return process.returncode
+
+        except PermissionError:
             # retrying once
             self.logger.warning(f'Missing permissions for {file_name}')
             return await self.execute_shell(file_name, retry=False)
-
-        else:
-            self.logger.error(f'stderr:\n{stderr.decode()}')
-
-        return process.returncode
