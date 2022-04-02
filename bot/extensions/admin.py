@@ -39,5 +39,7 @@ class Admin(discord.Cog):
     @__dev_group.command(name='restart')
     async def __restart_service(self, ctx: discord.ApplicationContext) -> None:
         await ctx.respond('attempting restart...')
-        await asyncio.create_subprocess_shell(f'sudo systemctl restart')
+        self.bot.logger.info('Restarting bot...')
+        process = await asyncio.create_subprocess_shell(cmd='sudo systemctl restart')
+        await process.communicate()
 
