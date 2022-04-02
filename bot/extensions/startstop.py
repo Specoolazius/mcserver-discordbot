@@ -26,3 +26,4 @@ class StartStop(discord.Cog):
     @slash_command(name='stop')
     async def __execute_stop(self, ctx: discord.ApplicationContext) -> None:
         returncode = None
+        # hi
