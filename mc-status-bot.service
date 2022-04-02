@@ -6,7 +6,7 @@ Requires=network.target
 
 [Service]
 Type=idle
-ExecStart=~/mcserver-discordbot/bot/run.sh
+ExecStart=/root/mcserver-discordbot/bot/run.sh
 
 [Install]
 WantedBy=default.target
