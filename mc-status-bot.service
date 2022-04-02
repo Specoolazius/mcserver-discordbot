@@ -1,0 +1,12 @@
+# paste this file to /usr/lib/systemd/system/mc-status-bot.service
+
+[Unit]
+Description=Minecraft Status Bot
+Requires=network.target
+
+[Service]
+Type=idle
+ExecStart=~/mcserver-discordbot/bot/run.sh
+
+[Install]
+WantedBy=default.target
