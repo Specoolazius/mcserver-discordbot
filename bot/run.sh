@@ -5,4 +5,4 @@
 # 2022, created by Specoolazius
 
 cd ~/mcserver-discordbot/bot || exit;
-sudo python3.10 -O run.py
+python3 -O run.py
