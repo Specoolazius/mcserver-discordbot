@@ -6,3 +6,4 @@
 
 cd ~/mcserver-discordbot/bot || exit;
 python3 -O run.py
+
