@@ -1,3 +1,3 @@
 # mcserver-discordbot
 
-Currenlty in development. Readme will follow soon.
+Currently in development. Readme will follow soon.
