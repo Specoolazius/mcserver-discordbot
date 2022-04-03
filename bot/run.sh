@@ -4,6 +4,5 @@
 #
 # 2022, created by Specoolazius
 
-cd ~/mcserver-discordbot/bot || exit;
+cd /root/mcserver-discordbot/bot || exit;
 python3 -O run.py
-
