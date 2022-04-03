@@ -58,6 +58,8 @@ class Presence(object):
             if self.bot.is_server_starting and self.bot.last_start + self.bot.config.server_start_timout < time.time():
                 self.bot.is_server_starting = False
 
+                self.bot.logger.debug('Resetting is_starting to False')
+
             # ToDo: better presence
             await self.bot.change_presence(
                 activity=discord.Activity(
