@@ -26,7 +26,7 @@ class Admin(discord.Cog):
 
     @__dev_group.command(name='update')
     async def __update_bot(self, ctx: discord.ApplicationContext) -> None:
-        await ctx.respond('starting update...')
+        await ctx.defer()
 
         if 0 == await self.bot.execute_shell('update.sh'):
             await ctx.respond('Updated bot from https://github.com/Specoolazius/mcserver-discordbot\n'
